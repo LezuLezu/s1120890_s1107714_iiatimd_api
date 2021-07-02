@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,36 +19,45 @@ use App\Http\Controllers\LoanController;
 
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'auth'
+    'prefix' => 'auth',
+    ], 
+    function ($router) {
 
+        Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
+        Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout']);
+        Route::post('refresh', [App\Http\Controllers\AuthController::class, 'refresh']);
+        Route::post('me', [App\Http\Controllers\AuthController::class, 'me']);
+        Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
+        Route::post('logoutall', [App\Http\Controllers\AuthController::class, 'logoutall']);
 
-], function ($router) {
-
-    Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
-    Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout']);
-    Route::post('refresh', [App\Http\Controllers\AuthController::class, 'refresh']);
-    Route::post('me', [App\Http\Controllers\AuthController::class, 'me']);
-    Route::post('register', [App\Http\Controllers\AuthController::class, 'register']);
-    Route::post('logoutall', [App\Http\Controllers\AuthController::class, 'logoutall']);
-
-    // Custom routes
-    // Show open loans
-    Route::get('loans', [LoanController::class, 'indexOpen']);
-
-    // Show loan by id
-    Route::get('loans/{id}', [LoanController::class, "showLoan"]);
-
-    // Show all loans
-    Route::get('all-loans', [LoanController::class, 'indexAll']);
-
-    // Show payed loans
-    Route::get('payed', [LoanController::class, "indexPayed"]);
-
-    // Add loan
-    Route::post('add-loan', [LoanController::class, "storeLoan"]);
-
-    Route::post("pay-loan/{id}", [LoanController::class, "updateLoan"]);
 });
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user',
+    ], 
+    function ($router) {
+        // Custom routes
+        // Show open loans
+        Route::get('loans', [LoanController::class, 'indexOpen']);
+
+        // Show loan by id
+        Route::get('loans/{id}', [LoanController::class, "showLoan"]);
+
+        // Show all loans
+        Route::get('all-loans', [LoanController::class, 'indexAll']);
+
+        // Show payed loans
+        Route::get('payed', [LoanController::class, "indexPayed"]);
+
+        // Add loan
+        Route::post('add-loan', [LoanController::class, "storeLoan"]);
+        // Loan payed -> update payedOn
+        Route::post("pay-loan/{id}", [LoanController::class, "updateLoan"]);
+});
+
+
+
 
 
 

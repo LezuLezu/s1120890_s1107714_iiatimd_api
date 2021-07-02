@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Exception;
 
 use App\Models\Loan as Loan;
+use App\Models\User as User;
+
+use Auth;
+
 
 use DB;
 use Carbon\Carbon;
@@ -14,34 +18,42 @@ class LoanController extends Controller
 {
     // Show all loans open
     public function indexOpen(){
-        $loans = Loan::where('payedOn', NULL)->get();
-        if(count($loans) == 0){
-            return response()->json([
-                'Message' => "No loans found"
-            ], 404);
+        $userId = Auth::user()->id;
+        if(User::where('id', $userId)->exists()){
+            $loans = User::find($userId)->myLoans->where('payedOn', NULL)->sortBy('createdAt');
+            if(count($loans) == 0){
+                    return response()->json([
+                        'Message' => "No loans found"
+                    ], 404);
+                }
         }
         return $loans;
     }
 
     // Show all loans
     public function indexAll(){
-        $loans = Loan::all();
-        error_log($loans);
-        if(count($loans) == 0){
-            return response()->json([
-                'Message' => "No loans found"
-            ], 404);
+        $userId = Auth::user()->id;
+        if(User::where('id', $userId)->exists()){
+            $loans = User::find($userId)->myLoans->sortBy('createdAt');
+            if(count($loans) == 0){
+                    return response()->json([
+                        'Message' => "No loans found"
+                    ], 404);
+                }
         }
         return $loans;
     }
 
     // Show payed loans
     public function indexPayed(){
-        $loans = Loan::where('payedOn', '!=', NULL)->get();
-        if(count($loans) == 0){
-            return response()->json([
-                'Message' => "No payed loans found"
-            ], 404);
+        $userId = Auth::user()->id;
+        if(User::where('id', $userId)->exists()){
+            $loans = User::find($userId)->myLoans->where('payedOn', '!=', NULL)->sortBy('createdAt');
+            if(count($loans) == 0){
+                    return response()->json([
+                        'Message' => "No loans found"
+                    ], 404);
+                }
         }
         return $loans;
     }
@@ -67,6 +79,7 @@ class LoanController extends Controller
         $loan->reason = $request->input('reason');
         $loan->phoneNumber = $request->input('phoneNumber');
         $loan->createdAt = Carbon::now("Europe/Amsterdam");
+        $loan->user_id = Auth::user()->id;
 
         try{
             $loan->save();
