@@ -23,6 +23,8 @@ class LoanTableSeeder extends Seeder
 
             "lastName" => "van Dijk",
             "phoneNumber" => "06123123123",  
+            
+            "user_id" => 1,
         ]);
         DB::table('loans')->insert([
             "amount" => 9.99,
@@ -32,16 +34,19 @@ class LoanTableSeeder extends Seeder
 
             "lastName" => "van Dijk",
             "phoneNumber" => "06123123123",  
-        ]);
-        // DB::table('loans')->insert([
-        //     "amount" => 91.99,
-        //     "firstName" => "Rob",
-        //     "title" => "Kabel TV",
-        //     "createdAt" => Carbon::now('Europe/Amsterdam'),
 
-        //     "lastName" => "van Dijk",
-        //     "phoneNumber" => "06123123123",  
-        //     "payedOn" => Carbon::yesterday(),
-        // ]);
+            "user_id" => 1,
+        ]);
+        DB::table('loans')->insert([
+            "amount" => 91.99,
+            "firstName" => "Rob",
+            "title" => "Kabel TV",
+            "createdAt" => Carbon::now('Europe/Amsterdam'),
+
+            "lastName" => "van Dijk",
+            "phoneNumber" => "06123123123",  
+            "payedOn" => Carbon::yesterday(),
+            "user_id" => 1
+        ]);
     }
 }

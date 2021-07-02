@@ -10,4 +10,8 @@ class Loan extends Model
     use HasFactory;
     protected $table = 'loans';
     public $timestamps = false;
+
+    public function myUser(){
+        return $this->belongsTo(\App\Models\User::class, 'user', 'id');
+    }
 }
