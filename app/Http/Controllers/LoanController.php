@@ -42,6 +42,7 @@ class LoanController extends Controller
                     ]);
                 }
         }
+        $loans = $loans->values()->all();
         return $loans;
     }
 
@@ -56,6 +57,7 @@ class LoanController extends Controller
                     ]);
                 }
         }
+        $loans = $loans->values()->all();
         return $loans;
     }
 
