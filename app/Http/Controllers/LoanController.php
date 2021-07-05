@@ -24,10 +24,10 @@ class LoanController extends Controller
             if(count($loans) == 0){
                     return response()->json([
                         'Message' => "No loans found"
-                    ], 404);
+                    ]);
                 }
         }
-        return response()->json($loans);
+        return $loans;
     }
 
     // Show all loans
@@ -38,7 +38,7 @@ class LoanController extends Controller
             if(count($loans) == 0){
                     return response()->json([
                         'Message' => "No loans found"
-                    ], 404);
+                    ]);
                 }
         }
         return $loans;
@@ -52,7 +52,7 @@ class LoanController extends Controller
             if(count($loans) == 0){
                     return response()->json([
                         'Message' => "No loans found"
-                    ], 404);
+                    ]);
                 }
         }
         return $loans;
@@ -84,9 +84,12 @@ class LoanController extends Controller
         try{
             $loan->save();
             return response()->json([
-                "message" => "Loan added succesfully"]);
+                "message" => "Loan added succesfully"
+            ]);
         }catch(Exception $e){
-            return response()->json("Adding loan failed");
+            return response()->json([
+                "message" => "Adding loan failed"
+            ]);
         }
     }
 
@@ -101,12 +104,18 @@ class LoanController extends Controller
                     ->update([
                         'payedOn' => $payTime
                     ]);
-                return response()->json("Loan Payed");
+                return response()->json([
+                    "message" => "Loan Payed"
+                ]);
             }catch(Exception $e){
-                return response()->json("Failed to Pay");
+                return response()->json([
+                    "message" => "Failed to Pay"
+                ]);
             }
         }else{
-            return response()->json("Failed to find loan with given id");
+            return response()->json([
+                "message" => "Failed to find loan with given id"
+            ]);
         }
     }
 }
