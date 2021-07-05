@@ -27,7 +27,7 @@ class LoanController extends Controller
                     ]);
                 }
         }
-        return $loans->all();
+        return $loans->toArray();
     }
 
     // Show all loans
