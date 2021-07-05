@@ -83,7 +83,8 @@ class LoanController extends Controller
 
         try{
             $loan->save();
-            return response()->json("Loan added succescully");
+            return response()->json([
+                "message" => "Loan added succesfully"]);
         }catch(Exception $e){
             return response()->json("Adding loan failed");
         }
