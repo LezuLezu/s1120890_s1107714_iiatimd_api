@@ -20,13 +20,14 @@ class LoanController extends Controller
     public function indexOpen(){
         $userId = Auth::user()->id;
         if(User::where('id', $userId)->exists()){
-            $loans = User::find($userId)->myLoans->where('payedOn', NULL)->sortBy('createdAt');
+            $loans = User::find($userId)->myloans->where('payedOn', NULL)->sortBy('createdAt');
             if(count($loans) == 0){
                     return response()->json([
                         'Message' => "No loans found"
-                    ], 404);
+                    ]);
                 }
         }
+        $loans = $loans->values()->all();
         return $loans;
     }
 
@@ -38,9 +39,10 @@ class LoanController extends Controller
             if(count($loans) == 0){
                     return response()->json([
                         'Message' => "No loans found"
-                    ], 404);
+                    ]);
                 }
         }
+        $loans = $loans->values()->all();
         return $loans;
     }
 
@@ -52,9 +54,10 @@ class LoanController extends Controller
             if(count($loans) == 0){
                     return response()->json([
                         'Message' => "No loans found"
-                    ], 404);
+                    ]);
                 }
         }
+        $loans = $loans->values()->all();
         return $loans;
     }
 
@@ -83,9 +86,13 @@ class LoanController extends Controller
 
         try{
             $loan->save();
-            return response()->json(["Added loan succesfully"],200);
+            return response()->json([
+                "message" => "Loan added succesfully"
+            ]);
         }catch(Exception $e){
-            return response()->json(["Failed to add loan", $e],400);
+            return response()->json([
+                "message" => "Adding loan failed"
+            ]);
         }
     }
 
@@ -100,12 +107,18 @@ class LoanController extends Controller
                     ->update([
                         'payedOn' => $payTime
                     ]);
-                return response()->json(["Loan payed"], 200);
+                return response()->json([
+                    "message" => "Loan Payed"
+                ]);
             }catch(Exception $e){
-                return response()->json(["Failed to pay", $e], 400);
+                return response()->json([
+                    "message" => "Failed to Pay"
+                ]);
             }
         }else{
-            return response()->json(["Failed to find loan with given id"], 400);
+            return response()->json([
+                "message" => "Failed to find loan with given id"
+            ]);
         }
     }
 }
