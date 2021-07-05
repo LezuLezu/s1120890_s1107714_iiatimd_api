@@ -27,7 +27,7 @@ class LoanController extends Controller
                     ], 404);
                 }
         }
-        return $loans;
+        return response()->json($loans);
     }
 
     // Show all loans
@@ -83,9 +83,9 @@ class LoanController extends Controller
 
         try{
             $loan->save();
-            return response()->json(["Added loan succesfully"],200);
+            return response()->json("Loan added succescully");
         }catch(Exception $e){
-            return response()->json(["Failed to add loan", $e],400);
+            return response()->json("Adding loan failed");
         }
     }
 
@@ -100,12 +100,12 @@ class LoanController extends Controller
                     ->update([
                         'payedOn' => $payTime
                     ]);
-                return response()->json(["Loan payed"], 200);
+                return response()->json("Loan Payed");
             }catch(Exception $e){
-                return response()->json(["Failed to pay", $e], 400);
+                return response()->json("Failed to Pay");
             }
         }else{
-            return response()->json(["Failed to find loan with given id"], 400);
+            return response()->json("Failed to find loan with given id");
         }
     }
 }
