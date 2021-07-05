@@ -20,14 +20,15 @@ class LoanController extends Controller
     public function indexOpen(){
         $userId = Auth::user()->id;
         if(User::where('id', $userId)->exists()){
-            $loans = User::find($userId)->myLoans->where('payedOn', NULL)->sortBy('createdAt');
+            $loans = User::find($userId)->where('payedOn', NULL)->sortBy('createdAt');
             if(count($loans) == 0){
                     return response()->json([
                         'Message' => "No loans found"
                     ]);
                 }
         }
-        return $loans->toArray();
+        $loans = $loans->values()->all();
+        return $loans;
     }
 
     // Show all loans
