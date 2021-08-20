@@ -21,11 +21,11 @@ class LoanController extends Controller
         $userId = Auth::user()->id;
         if(User::where('id', $userId)->exists()){
             $loans = User::find($userId)->myloans->where('payedOn', NULL)->sortBy('createdAt');
-            if(count($loans) == 0){
-                    return response()->json([
-                        'Message' => "No loans found"
-                    ]);
-                }
+            // if(count($loans) == 0){
+            //         return response()->json([
+            //             'Message' => "No loans found"
+            //         ])->toArray();
+            //     }
         }
         $loans = $loans->values()->all();
         return $loans;
@@ -36,11 +36,11 @@ class LoanController extends Controller
         $userId = Auth::user()->id;
         if(User::where('id', $userId)->exists()){
             $loans = User::find($userId)->myLoans->sortBy('createdAt');
-            if(count($loans) == 0){
-                    return response()->json([
-                        'Message' => "No loans found"
-                    ]);
-                }
+            // if(count($loans) == 0){
+            //         return response()->json([
+            //             'Message' => "No loans found"
+            //         ]);
+            //     }
         }
         $loans = $loans->values()->all();
         return $loans;
@@ -51,11 +51,11 @@ class LoanController extends Controller
         $userId = Auth::user()->id;
         if(User::where('id', $userId)->exists()){
             $loans = User::find($userId)->myLoans->where('payedOn', '!=', NULL)->sortBy('createdAt');
-            if(count($loans) == 0){
-                    return response()->json([
-                        'Message' => "No loans found"
-                    ]);
-                }
+            // if(count($loans) == 0){
+            //         return response()->json([
+            //             'Message' => "No loans found"
+            //         ]);
+            //     }
         }
         $loans = $loans->values()->all();
         return $loans;
